@@ -1,7 +1,7 @@
 package myejb;
 
 import javax.naming.InitialContext;
-import java.util.*;
+import java.util.Properties;
 
 public class OurStatelessJavaClient {               //Runs outside of Java EE container.
 
