@@ -6,18 +6,28 @@ $ ant clean build deploy runappclient runjavaclient
 
 
 The verbose compilation and build is as follows:
+
 $ mkdir build
+
 $ cd build
+
 $ mkdir javaclient
+
 $ mkdir appclient
+
 $ javac -classpath .:/home/USRNAME/Downloads/glassfish4/glassfish/lib/javaee.jar -d ./build/ejb/ OurStateless.java OurStatelessBean.java
+
 $ javac -classpath .:/home/USRNAME/Downloads/glassfish4/glassfish/lib/javaee.jar -d ./build/appclient/ OurStateless.java OurStatelessAppClient.java
+
 $ javac -classpath .:/home/USRNAME/Downloads/glassfish4/glassfish/lib/javaee.jar -d ./build/javaclient/ OurStateless.java OurStatelessJavaClient.java
+
 $ cd build/ejb
+
 $ jar cf /DIRECTORY_PATH/build/OurStatelessejb.jar myejb/*.class
+
 $ jar cvfm /DIRECTORY_PATH/build/Ourstatelessappclient.jar /DIRECTORY_PATH/OurStatelessManifest.mf myejb/*.class
 
-...where DIRECTORY_PATH leads to the 'build' directory. &nbsp; From within this directory the application client can be run alone with:
+...where DIRECTORY_PATH leads to the 'build' directory. &nbsp; From within this directory the application client can be run alone with Glassfish's bin/appclient:
 
 $ appclient -client  Ourstatelessappclient.jar
 
