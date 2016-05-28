@@ -1,8 +1,10 @@
 **_Accessing a Stateless Session Bean Using Application Clients and Standalone Java Clients._**
 
-The stand-alone java client uses the JNDI API package. &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp; This global name is looked up in OurStatelessJavaClient.java using one of three alternative methods. &nbsp; The simplest method is option 3 but this doesn't account for vendor-specific implementations. &nbsp; The most portable approach is therefore that of option 1.
+The stand-alone java client uses the JNDI API package. &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp; This lookup is achieved using one of the three alternative methods listed in OurStatelessJavaClient.java : The simplest method is 'option 3' but this doesn't account for vendor-specific implementations... to account for these (and therefore improve portability) 'option 1' should be used.
 
-Also provided in OurStatelessJavaClient.java is an optional block of code that is needed when a remote EJB component is accessed from a non-Java EE web container.
+Also provided in OurStatelessJavaClient.java is an optional block of code that is needed when a remote EJB component is accessed from a non-Java EE web container. &nbsp; Normally, the zero-argument InitialContext() constructor can be used instead.
+
+The communication to and from the stateless session bean (called OurStatelessBean.java) is performed via a remote business interface called OurStateless.java.
 
 --------------------------------------------
 
