@@ -1,0 +1,112 @@
+<project name="MyProject" default="dist" basedir=".">
+    <description>
+        A simple build script.
+    </description>
+  <!-- set global properties for this build -->
+  <!-- set glassfish.home to point to glassfish installation  -->
+  <property name="glassfish.home" location="/home/alex/Downloads/glassfish4/glassfish"/>
+
+  <property name="testname" value="OurStateless"/>
+  <property name="build" location="build"/>
+
+  <property name="ejb" value="ejb"/>
+  <property name="appclient" value="appclient"/>
+  <property name="javaclient" value="javaclient"/>
+
+  <target name="init">
+    <!-- Create the build directory structure -->
+    <mkdir dir="${build}/${ejb}"/>
+    <mkdir dir="${build}/${appclient}"/>
+    <mkdir dir="${build}/${javaclient}"/>
+  </target>
+
+  <target name="all">
+    <antcall target="clean"/>
+    <antcall target="build"/>
+    <antcall target="deploy"/>
+    <antcall target="run"/>
+    <antcall target="undeploy"/>
+    <antcall target="clean"/>
+  </target>
+
+  <target name="build" description="build" depends="init">
+    <antcall target="build-ejb"/>
+    <antcall target="build-appclient"/>
+    <antcall target="build-javaclient"/>
+  </target>
+
+  <target name="build-ejb"
+        description="Build ejb jar" >
+    <javac classpath="${glassfish.home}/lib/javaee.jar" 
+           srcdir="."
+           destdir="${build}/${ejb}"
+           includes="${testname}.java,${testname}Bean.java"/>
+    <jar destfile="${build}/${testname}ejb.jar" basedir="${build}/${ejb}"/>
+  </target>
+
+  <target name="build-appclient" 
+        description="Build appclient jar" >
+    <javac classpath="${glassfish.home}/lib/javaee.jar" 
+           srcdir="."
+           destdir="${build}/${appclient}"
+           includes="${testname}.java,${testname}AppClient.java"/>
+    <jar destfile="${build}/${testname}appclient.jar"
+         basedir="${build}/${appclient}"
+         manifest="${testname}Manifest.mf"/>
+  </target>
+
+  <target name="build-javaclient" 
+        description="Build standalone java client classes" >
+    <javac classpath="${glassfish.home}/lib/javaee.jar" 
+           srcdir="."
+           destdir="${build}/${javaclient}"
+           includes="${testname}.java,${testname}JavaClient.java"/>
+  </target>
+  
+  <target name="deploy" 
+          description="deploy">
+    <exec executable="${glassfish.home}/bin/asadmin" 
+          failonerror="true" 
+          vmlauncher="false">
+      <arg line="deploy ${build}/${testname}ejb.jar"/>
+    </exec>
+  </target>
+
+  <target name="undeploy" 
+          description="undeploy">
+    <exec executable="${glassfish.home}/bin/asadmin" 
+          failonerror="true" 
+          vmlauncher="false">
+      <arg line="undeploy ${testname}ejb"/>
+    </exec>
+  </target>
+
+  <target name="run" >
+    <antcall target="runappclient"/>
+  </target>
+
+  <target name="runappclient" 
+          description="execute Application Client">
+    <exec executable="${glassfish.home}/bin/appclient" 
+          failonerror="true" 
+          vmlauncher="false">
+      <arg line="-client ${build}/${testname}appclient.jar"/>
+    </exec>
+  </target>
+
+  <target name="runjavaclient" 
+          description="execute Standalone java client">
+     <java  fork="on" 
+            failonerror="true"
+            classpath="${glassfish.home}/lib/javaee.jar:${glassfish.home}/lib/appserv-rt.jar:${build}/${javaclient}"
+            classname="myejb.${testname}JavaClient">
+        </java>
+  </target>
+
+  <target name="clean" 
+          description="clean up" >
+    <delete dir="${build}"/>
+  </target>
+
+
+</project>
