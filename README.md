@@ -1,5 +1,13 @@
 **_Accessing a Stateless Session Bean Using Application Clients and Standalone Java Clients._**
 
+The stand-alone java client uses the JNDI API package. &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp; This global name is looked up in OurStatelessJavaClient.java using one of three alternative methods. &nbsp; The simplest method is option 3 but this doesn't account for vendor-specific implementations. &nbsp; The most portable approach is therefore that of option 1.
+
+Also provided in OurStatelessJavaClient.java is an optional block of code that is needed when a remote EJB component is accessed from a non-Java EE web container.
+
+--------------------------------------------
+
+_To use:_
+
 In the ant script (build.xml) modify the property on line 7 to point to your application server home. &nbsp; When your server is running, execute with:
 
 $ ant clean build deploy runappclient runjavaclient
@@ -37,8 +45,4 @@ $ java -cp /home/USRNAME/Downloads/glassfish4/glassfish/lib/javaee.jar:/home/USR
 
 (Note of course that both the stand-alone java client and the application client require OurStatelessejb to be deployed and accessible on the server.)
 
--------------------------
 
-The stand-alone java client uses the JNDI API package. &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp This global name is looked up in OurStatelessJavaClient.java using one of three alternative methods. &nbsp; The simplest method is option 3 but this doesn't account for vendor-specific implementations. &nbsp; The most portable approach is therefore that of option 1.
-
-Also provided in OurStatelessJavaClient.java is an optional block of code that is needed when a remote EJB component is accessed from a non-Java EE web container.
