@@ -1,5 +1,6 @@
 **_Accessing a Stateless Session Bean Using Application Clients and Standalone Java Clients._**
 
+A stand-alone java client runs outside of a Java EE container, while an application client has full access to Java EE.
 
 The stand-alone java client uses the JNDI API package and execution can be initiated using the usual java command-line command (see the final command provided below). &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp; This lookup is achieved using one of the three alternative methods listed in OurStatelessJavaClient.java : The simplest method is 'option 3' but this doesn't account for vendor-specific implementations... to account for this more general situation, 'option 1' should be used. 
 
