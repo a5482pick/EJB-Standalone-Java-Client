@@ -40,13 +40,13 @@ public class OurStatelessJavaClient {               //Runs outside of Java EE co
             //Three representations of global JNDI lookups. Lookups are required because dependency injection is unavailable.
             //Stand-alone clients don't have access java:comp/env.
               
-            //Option 1: The most general, portable case.  (The JNDI name entry is accessible from inside and outside of the application):
+            //Option 1: Helps simulate portability.  (The JNDI name entry is accessible from inside and outside of the application):
             OurStateless ourStateless = (OurStateless) ic.lookup("java:global/OurStatelessejb/OurStatelessBean!myejb.OurStateless");
             
             //Option 2:
             //OurStateless ourStateless = (OurStateless) ic.lookup("java:global/OurStatelessejb/OurStatelessBean");
             
-            //Option3:  This is generally not portable (i.e. does not account for different vendor implementations.)
+            //Option3:  The simplest syntax, but does not account for different vendor implementations.
             //OurStateless ourStateless = (OurStateless) ic.lookup("myejb.OurStateless");
             
             

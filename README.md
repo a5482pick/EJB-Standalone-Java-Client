@@ -1,8 +1,11 @@
 **_Accessing a Stateless Session Bean Using Application Clients and Standalone Java Clients._**
 
-The stand-alone java client uses the JNDI API package and execution can be initiated using the usual java command-line command (see the final command provided below). &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp; This lookup is achieved using one of the three alternative methods listed in OurStatelessJavaClient.java : The simplest method is 'option 3' but this doesn't account for vendor-specific implementations... to account for these (and therefore improve portability) 'option 1' should be used.
 
-Also provided in OurStatelessJavaClient.java is an optional block of code that is needed when a remote EJB component is accessed from a non-Java EE web container. &nbsp; Normally, the zero-argument InitialContext() constructor can be used instead.
+The stand-alone java client uses the JNDI API package and execution can be initiated using the usual java command-line command (see the final command provided below). &nbsp; It can't use the component naming environment or the @EJB annotation, and therefore has to 'lookup' the global JNDI name. &nbsp; This lookup is achieved using one of the three alternative methods listed in OurStatelessJavaClient.java : The simplest method is 'option 3' but this doesn't account for vendor-specific implementations... to account for this more general situation, 'option 1' should be used. 
+
+Also provided in OurStatelessJavaClient.java is an optional block of code that is needed when a remote EJB component is accessed from a non-Java EE web container. &nbsp; (Normally, the zero-argument InitialContext() constructor can be used instead of this block.)  
+
+It is because of these possibly required code manipulations that stand-alone java clients are by definition not portable.  &nbsp;Portability is instead simulated, by adjusting the code.
 
 The communication to and from the stateless session bean (called OurStatelessBean.java) is performed via a remote business interface called OurStateless.java.
 
